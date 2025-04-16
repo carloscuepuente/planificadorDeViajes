@@ -3,7 +3,7 @@ import sendMailUtil from '../../utils/sendEmailUtil.js';
 
 const recoverPasswordService = async (email, recoverPassCode) => {
   const pool = await getPool();
-
+  const { FRONT_END_PORT } = process.env;
   await pool.query(
     `
     UPDATE users
@@ -28,7 +28,7 @@ const recoverPasswordService = async (email, recoverPassCode) => {
                   <p style="margin: 0 0 5px; font-size: 16px; color: white;">Se ha solicitado la recuperación de la contraseña para el siguiente email:</p>
                   <p style="margin: 0 0 15px; font-size: 20px; color: #046EF8;">${email}</p>
                   <p style="margin: 20px 0 5px; font-size: 16px; color: #ccc;">Haz clic en el siguiente enlace para restablecer tu contraseña:</p>
-                  <a href="http://localhost:5173/reset/${recoverPassCode}" style="color: #046EF8; font-size: 18px; font-weight: bold; text-decoration: none;">Restablecer contraseña</a>
+                  <a href="${FRONT_END_PORT}/reset/${recoverPassCode}" style="color: #046EF8; font-size: 18px; font-weight: bold; text-decoration: none;">Restablecer contraseña</a>
                   <p style="margin: 70px 0 2px; color: #fff;">Gracias por volar con nosotros.</p>
                   <p style="margin: 0 0 10px; color: #fff;">&copy; WonderFly ✈️ 2024</p>
                 </td>

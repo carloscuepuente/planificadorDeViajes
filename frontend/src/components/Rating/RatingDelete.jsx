@@ -14,7 +14,7 @@ export const RatingDelete = ({ id }) => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`http://localhost:3001/ratings/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/ratings/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `${user.token}`,

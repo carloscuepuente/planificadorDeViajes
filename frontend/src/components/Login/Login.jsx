@@ -16,16 +16,19 @@ function Login() {
     const password = e.target.password.value;
 
     try {
-      const response = await fetch('http://localhost:3001/users/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/users/login`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        }
+      );
 
       const data = await response.json();
 
@@ -75,7 +78,9 @@ function Login() {
         className="bg-black bg-opacity-50 p-10 mt-[85px] sm:mt-36  rounded-lg shadow-lg w-[500px] h-[750px] text-center"
         style={{ backgroundImage: `url('/fondoLogin.png')` }}
       >
-        <h2 className="text-2xl font-bold mb-6">{t('formLogin.welcomeBack')}</h2>
+        <h2 className="text-2xl font-bold mb-6">
+          {t('formLogin.welcomeBack')}
+        </h2>
         <form onSubmit={handleSubmit}>
           <label className="block text-lg font-semibold mt-10 mb-2 text-white">
             {t('formLogin.email')}
@@ -132,7 +137,7 @@ function Login() {
             {t('formLogin.register')}
           </a>
         </p>
-      </div>      
+      </div>
       <ToastContainer />
     </div>
   );

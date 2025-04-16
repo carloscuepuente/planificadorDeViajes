@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
 import DeleteFavoriteButton from './DeleteFavoriteButton/DeleteFavoriteButton';
 import Head from './Head/Head';
-import { FavButtonCard } from "./FavButtonCard";
+import { FavButtonCard } from './FavButtonCard';
 import { useTranslation } from 'react-i18next';
 
 function FavList() {
@@ -23,7 +23,7 @@ function FavList() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3001/users/${user.id}/favoritos`,
+          `${import.meta.env.VITE_API_URL}/users/${user.id}/favoritos`,
           {
             headers: {
               Authorization: user.token,
@@ -142,7 +142,9 @@ function FavList() {
 
               {/* Columna 2: Nota */}
               <div className="bg-[#8c79aa] px-4 max-h-[150px] text-white sm:col-span-6">
-                <p className="dark:text-gray-300">{t('favList.note')}: {favorito.note}</p>
+                <p className="dark:text-gray-300">
+                  {t('favList.note')}: {favorito.note}
+                </p>
               </div>
 
               {/* Columna 3: Precio y Eliminar */}

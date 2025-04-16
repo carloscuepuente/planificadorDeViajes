@@ -77,13 +77,17 @@ const AvatarUpload = ({ currentAvatar, onAvatarUpdate }) => {
       }
 
       // Realiza la solicitud para subir el avatar.
-      const response = await fetch('http://localhost:3001/users/avatar', {
-        method: 'PUT',
-        body: formData,
-        headers: {
-          Authorization: token,
-        },
-      });
+
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/users/avatar`,
+        {
+          method: 'PUT',
+          body: formData,
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
 
       if (!response.ok) {
         setMessage({ text: t('errorAvatarUpdate'), type: 'error' });
@@ -91,7 +95,7 @@ const AvatarUpload = ({ currentAvatar, onAvatarUpdate }) => {
       }
 
       const data = await response.json();
-      
+
       if (data.status === 'ok') {
         setMessage({
           text: t('successAvatarUpdate'), // Utilizamos la traducción aquí

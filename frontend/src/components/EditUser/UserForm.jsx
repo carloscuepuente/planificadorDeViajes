@@ -23,12 +23,14 @@ const UserForm = ({ initialData, setAvatarAct, onSubmit }) => {
         lastName: initialData.lastName || '',
         username: initialData.username || '',
         email: initialData.email || '',
-        password: '', 
+        password: '',
       });
 
       // Si hay un avatar, actualiza el avatar en el padre
       if (initialData.avatar) {
-        setAvatarAct(`http://localhost:3001/uploads/${initialData.avatar}`);
+        setAvatarAct(
+          `${import.meta.env.VITE_API_URL}/uploads/${initialData.avatar}`
+        );
       }
     }
   }, [initialData, setAvatarAct]);
@@ -53,14 +55,18 @@ const UserForm = ({ initialData, setAvatarAct, onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3 sm:gap-4 w-full">
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-3 sm:gap-4 w-full"
+    >
       {['name', 'lastName', 'username', 'email', 'password'].map((field) => (
         <div key={field} className="flex flex-col gap-1 sm:gap-2 w-full">
-          <label 
-            htmlFor={field} 
+          <label
+            htmlFor={field}
             className="text-white text-xs sm:text-sm font-bold"
           >
-            {t(field.charAt(0).toUpperCase() + field.slice(1))} {/* Traducción dinámica */}
+            {t(field.charAt(0).toUpperCase() + field.slice(1))}{' '}
+            {/* Traducción dinámica */}
           </label>
           <div className="flex items-center w-full">
             <input
@@ -102,8 +108,11 @@ const UserForm = ({ initialData, setAvatarAct, onSubmit }) => {
       </button>
 
       {message.text && (
-        <p className={`mt-2 text-xs sm:text-sm font-bold text-center ${message.type === 'success' ? 'text-green-500' : 'text-red-500'}`}>
-          {message.type === 'success' ? t('successUpdate') : t('errorUpdate')} {/* Mensaje de éxito o error */}
+        <p
+          className={`mt-2 text-xs sm:text-sm font-bold text-center ${message.type === 'success' ? 'text-green-500' : 'text-red-500'}`}
+        >
+          {message.type === 'success' ? t('successUpdate') : t('errorUpdate')}{' '}
+          {/* Mensaje de éxito o error */}
         </p>
       )}
     </form>

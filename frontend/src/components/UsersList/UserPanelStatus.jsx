@@ -13,13 +13,16 @@ export const UserPanelStatus = ({ userId, active, updateUserStatus }) => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`http://localhost:3001/admin/${userId}/status`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${user.token}`,
-        },
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/admin/${userId}/status`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `${user.token}`,
+          },
+        }
+      );
 
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
@@ -34,16 +37,16 @@ export const UserPanelStatus = ({ userId, active, updateUserStatus }) => {
       setLoading(false);
     }
   };
-/*className={`status ${isActive ? 'Activo' : 'Inactivo'}`}*/
+  /*className={`status ${isActive ? 'Activo' : 'Inactivo'}`}*/
   return (
-    <div className='p-4'>
+    <div className="p-4">
       <button
-      className={`w-16 h-5 sm:w-24 sm:h-6 p-1 sm:p-2 flex items-center justify-center gap-1 sm:gap-2 rounded-full text-white font-manrope text-xs font-medium leading -4 sm:leading-5 text-center shadow-lg ${
-        isActive ? 'bg-[#0df20d] hover:bg-[#45f945]' : 'bg-[#5d5d5d] hover:bg-[#454444]'
-      }`}
-        
+        className={`w-16 h-5 sm:w-24 sm:h-6 p-1 sm:p-2 flex items-center justify-center gap-1 sm:gap-2 rounded-full text-white font-manrope text-xs font-medium leading -4 sm:leading-5 text-center shadow-lg ${
+          isActive
+            ? 'bg-[#0df20d] hover:bg-[#45f945]'
+            : 'bg-[#5d5d5d] hover:bg-[#454444]'
+        }`}
         onClick={changeStatus}
-        
       >
         {loading ? 'Actualizando...' : isActive ? 'Activo' : 'Inactivo'}
       </button>

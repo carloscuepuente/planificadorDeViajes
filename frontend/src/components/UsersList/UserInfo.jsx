@@ -9,20 +9,21 @@ export const UserInfo = () => {
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
 
-  const wonderUser = useFetch('http://localhost:3001/admin/users');
+  const wonderUser = useFetch(`${import.meta.env.VITE_API_URL}/admin/users`);
 
-  useEffect(() =>{
-    if (wonderUser && wonderUser.data && Array.isArray(wonderUser.data.users)){
-      const foundUser = wonderUser.data.users.find((u)=>u.id === parseInt(id))
-     if (foundUser){
-      setUser(foundUser); 
+  useEffect(() => {
+    if (wonderUser && wonderUser.data && Array.isArray(wonderUser.data.users)) {
+      const foundUser = wonderUser.data.users.find(
+        (u) => u.id === parseInt(id)
+      );
+      if (foundUser) {
+        setUser(foundUser);
         setLoading(false);
-      }else {
-
+      } else {
         setError('Usuario no encontrado');
-      setLoading(false);
+        setLoading(false);
       }
-  }
+    }
   }, [wonderUser, id]);
 
   if (loading) return <p>Loading...</p>;
@@ -33,16 +34,18 @@ export const UserInfo = () => {
   // const toggleAccordion = () => {
   //   setIsOpen(!isOpen);
   // };
-  const avatarUrl = `http://localhost:3001/users/getAvatar/${id}`
+  const avatarUrl = `${import.meta.env.VITE_API_URL}/users/getAvatar/${id}`;
   return (
-    <div className='mt-20 mb-10 top-5 p-5 rounded-2xl w-full max-w-xs sm:max-w-md mx-auto relative bg-[#7278a4]'>
-      <h1 className='text-center bg-[#515a9b] text-white font-manrope text-base sm:text-lg font-bold' >{user.username}</h1>
-      <img src={avatarUrl} className="rounded-full w-24 h-24 sm:w-32 sm:h-32"/>
-      <div className='mt-4 text-left text-[#252a31] font-semibold'>
-      <p>Email: {user.email}</p>
-      <p>Name: {user.name}</p>
-      <p>Last Name: {user.lastName}</p>
-      <p>Active Since: {new Date (user.created_at).toLocaleDateString()}</p>
+    <div className="mt-20 mb-10 top-5 p-5 rounded-2xl w-full max-w-xs sm:max-w-md mx-auto relative bg-[#7278a4]">
+      <h1 className="text-center bg-[#515a9b] text-white font-manrope text-base sm:text-lg font-bold">
+        {user.username}
+      </h1>
+      <img src={avatarUrl} className="rounded-full w-24 h-24 sm:w-32 sm:h-32" />
+      <div className="mt-4 text-left text-[#252a31] font-semibold">
+        <p>Email: {user.email}</p>
+        <p>Name: {user.name}</p>
+        <p>Last Name: {user.lastName}</p>
+        <p>Active Since: {new Date(user.created_at).toLocaleDateString()}</p>
       </div>
     </div>
 

@@ -10,7 +10,7 @@ function RatingBanner() {
   useEffect(() => {
     const fetchRating = async () => {
       try {
-        const response = await fetch('http://localhost:3001/ratings');
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/ratings`);
         if (!response.ok) {
           throw new Error('Error al obtener la valoración');
         }
@@ -42,9 +42,7 @@ function RatingBanner() {
       <div className="bg-[#9AA5BC] text-white py-10 flex justify-center mt-0">
         <div className="bg-white bg-opacity-80 text-black rounded-lg px-6 py-4 flex items-center justify-between w-auto">
           <div className="text-center">
-            <p className="font-bold">
-              ⭐ {t('ratingMessage')}
-            </p>
+            <p className="font-bold">⭐ {t('ratingMessage')}</p>
             <div className="flex justify-center mt-2">
               <div className="flex items-center">
                 {stars.map((star, index) => (

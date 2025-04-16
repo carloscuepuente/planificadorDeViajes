@@ -5,10 +5,10 @@ import UserForm from './UserForm';
 import avatar from '../../assets/avatar.png';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useTranslation } from 'react-i18next';  // Importar useTranslation
+import { useTranslation } from 'react-i18next'; // Importar useTranslation
 
 const EditUser = () => {
-  const { t } = useTranslation();  // Usar hook de traducción
+  const { t } = useTranslation(); // Usar hook de traducción
 
   const [avatarAct, setAvatarAct] = useState(avatar);
   const [userData, setUserData] = useState(null);
@@ -23,7 +23,7 @@ const EditUser = () => {
 
       if (!token || !email) {
         toast.error('Usuario no autenticado', {
-          position: "top-right",
+          position: 'top-right',
           autoClose: 3000,
         });
         setLoading(false);
@@ -31,32 +31,37 @@ const EditUser = () => {
       }
 
       try {
-        const response = await fetch('http://localhost:3001/users/profile', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: token,
-          },
-          body: JSON.stringify({ email }),
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/users/profile`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: token,
+            },
+            body: JSON.stringify({ email }),
+          }
+        );
 
         const responseData = await response.json();
 
         if (responseData.status === 'ok') {
           const userData = responseData.data;
           setUserData(userData);
-          setAvatarAct(`http://localhost:3001/uploads/${userData.avatar}`);
+          setAvatarAct(
+            `${import.meta.env.VITE_API_URL}/uploads/${userData.avatar}`
+          );
           setLoading(false);
         } else {
           toast.error(responseData.message || 'Error al obtener datos', {
-            position: "top-right",
+            position: 'top-right',
             autoClose: 3000,
           });
           setLoading(false);
         }
       } catch {
         toast.error('Error al conectar con el servidor', {
-          position: "top-right",
+          position: 'top-right',
           autoClose: 3000,
         });
         setLoading(false);
@@ -69,41 +74,44 @@ const EditUser = () => {
   const handleFormSubmit = async (formData) => {
     try {
       const token = user?.token;
-      const response = await fetch(`http://localhost:3001/users/edit/${userData.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/users/edit/${userData.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       if (response.ok) {
         toast.success(t('message.updatedSuccess'), {
-          position: "bottom-center",
+          position: 'bottom-center',
           autoClose: 3000,
         });
       } else {
         const errorData = await response.json();
         toast.error(errorData.message || t('message.updateError'), {
-          position: "top-right",
+          position: 'top-right',
           autoClose: 3000,
         });
       }
     } catch {
       toast.error(t('message.serverError'), {
-        position: "top-right",
+        position: 'top-right',
         autoClose: 3000,
       });
     }
   };
 
   const handleAvatarUpdate = (newAvatarUrl) => {
-    setAvatarAct(`http://localhost:3001/uploads/${newAvatarUrl}`);
+    setAvatarAct(`${import.meta.env.VITE_API_URL}/uploads/${newAvatarUrl}`);
   };
 
   if (loading) {
-    return <p className="text-white text-center">{t('message.loading')}</p>;  // Usar traducción
+    return <p className="text-white text-center">{t('message.loading')}</p>; // Usar traducción
   }
 
   return (
@@ -112,10 +120,13 @@ const EditUser = () => {
       <h1 className="text-white mt-20 sm:mt-10 md:mt-20 text-xl sm:text-2xl font-bold mb-4 sm:mb-8 text-center">
         {t('editProfile')} {/* Usar traducción */}
       </h1>
-      
+
       <div className="flex flex-col sm:flex-row justify-center items-start gap-4 sm:gap-8 w-full max-w-4xl">
         <div className="flex flex-col items-center bg-[#686E9E] p-4 sm:p-20 rounded-lg w-full sm:w-[350px] mb-4 sm:mb-0">
-          <p className="text-white text-sm sm:text-base font-bold mb-2 sm:mb-4 text-center">{t('avatar')}</p>  {/* Usar traducción */}
+          <p className="text-white text-sm sm:text-base font-bold mb-2 sm:mb-4 text-center">
+            {t('avatar')}
+          </p>{' '}
+          {/* Usar traducción */}
           <AvatarUpload
             currentAvatar={avatarAct}
             onAvatarUpdate={handleAvatarUpdate}
@@ -129,10 +140,10 @@ const EditUser = () => {
           <h3 className="text-white text-base sm:text-lg font-bold mb-2 sm:mb-1 text-center">
             {t('personalData')} {/* Usar traducción */}
           </h3>
-          <UserForm 
-            initialData={userData} 
-            setAvatarAct={setAvatarAct} 
-            onSubmit={handleFormSubmit} 
+          <UserForm
+            initialData={userData}
+            setAvatarAct={setAvatarAct}
+            onSubmit={handleFormSubmit}
           />
         </div>
       </div>

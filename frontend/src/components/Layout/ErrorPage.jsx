@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 function ErrorPage() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   return (
     <div className="text-center p-auto mt-20">

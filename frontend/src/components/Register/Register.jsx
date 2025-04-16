@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast, ToastContainer } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';  // Importa useNavigate
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import 'react-toastify/dist/ReactToastify.css';
 
 function Register() {
   const { t } = useTranslation();
-  const navigate = useNavigate();  // Crea la instancia de navigate
+  const navigate = useNavigate(); // Crea la instancia de navigate
 
   const [showPassword, setShowPassword] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
@@ -34,13 +34,16 @@ function Register() {
     }
 
     try {
-      const response = await fetch('http://localhost:3001/users/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, lastName, username, email, password }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/users/register`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name, lastName, username, email, password }),
+        }
+      );
 
       const data = await response.json();
 
@@ -54,7 +57,7 @@ function Register() {
         });
       }
     } catch (error) {
-      toast.error(t('serverError'), {
+      toast.error(error || t('serverError'), {
         position: 'bottom-center',
         autoClose: 3000,
         hideProgressBar: true,
@@ -68,7 +71,7 @@ function Register() {
 
   const handleSuccessModalClose = () => {
     setIsSuccessModalOpen(false);
-    navigate('/login');  // Usamos navigate en lugar de history.push
+    navigate('/login'); // Usamos navigate en lugar de history.push
   };
 
   return (
@@ -78,11 +81,15 @@ function Register() {
           className="bg-black bg-opacity-50 p-10 mt-[85px] sm:mt-36 rounded-lg shadow-lg w-[500px] text-center"
           style={{ backgroundImage: `url('/fondoLogin.png')` }}
         >
-          <h2 className="text-2xl font-bold mb-6">{t('formRegister.createAccount')}</h2>
+          <h2 className="text-2xl font-bold mb-6">
+            {t('formRegister.createAccount')}
+          </h2>
           <form onSubmit={handleSubmit}>
             <div className="flex justify-between gap-4 mb-6">
               <div className="w-1/2">
-                <label className="block text-lg font-semibold mb-2 text-white">{t('formRegister.firstName')}</label>
+                <label className="block text-lg font-semibold mb-2 text-white">
+                  {t('formRegister.firstName')}
+                </label>
                 <input
                   className="w-full p-3 border rounded-lg bg-[#686e9e] text-white placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   type="text"
@@ -92,7 +99,9 @@ function Register() {
                 />
               </div>
               <div className="w-1/2">
-                <label className="block text-lg font-semibold mb-2 text-white">{t('formRegister.lastName')}</label>
+                <label className="block text-lg font-semibold mb-2 text-white">
+                  {t('formRegister.lastName')}
+                </label>
                 <input
                   className="w-full p-3 border rounded-lg bg-[#686e9e] text-white placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   type="text"
@@ -103,7 +112,9 @@ function Register() {
               </div>
             </div>
 
-            <label className="block text-lg font-semibold mb-2 text-white">{t('formRegister.username')}</label>
+            <label className="block text-lg font-semibold mb-2 text-white">
+              {t('formRegister.username')}
+            </label>
             <input
               className="w-full p-3 mb-4 border rounded-lg bg-[#686e9e] text-white placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               type="text"
@@ -112,7 +123,9 @@ function Register() {
               required
             />
 
-            <label className="block text-lg font-semibold mb-2 text-white">{t('formRegister.email')}</label>
+            <label className="block text-lg font-semibold mb-2 text-white">
+              {t('formRegister.email')}
+            </label>
             <input
               className="w-full p-3 mb-4 border rounded-lg bg-[#686e9e] text-white placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               type="email"
@@ -121,7 +134,9 @@ function Register() {
               required
             />
 
-            <label className="block text-lg font-semibold mb-2 text-white">{t('formRegister.password')}</label>
+            <label className="block text-lg font-semibold mb-2 text-white">
+              {t('formRegister.password')}
+            </label>
             <div className="relative mb-4">
               <input
                 className="w-full p-3 border rounded-lg bg-[#686e9e] text-white placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -138,7 +153,9 @@ function Register() {
               </span>
             </div>
 
-            <label className="block text-lg font-semibold mb-2 text-white">{t('formRegister.confirmPassword')}</label>
+            <label className="block text-lg font-semibold mb-2 text-white">
+              {t('formRegister.confirmPassword')}
+            </label>
             <div className="relative mb-4">
               <input
                 className="w-full p-3 border rounded-lg bg-[#686e9e] text-white placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -165,7 +182,10 @@ function Register() {
 
           <p className="mt-6 text-sm">
             {t('formRegister.alreadyHaveAccount')}{' '}
-            <a href="/login" className="text-[#046ef8] font-semibold hover:underline">
+            <a
+              href="/login"
+              className="text-[#046ef8] font-semibold hover:underline"
+            >
               {t('formRegister.login')}
             </a>
           </p>
@@ -175,8 +195,12 @@ function Register() {
       {isSuccessModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-lg shadow-xl p-6 text-center w-full max-w-md mx-4">
-            <h2 className="text-2xl font-bold mb-4 text-black">{t('formRegister.success')}</h2>
-            <p className="mb-6 text-gray-700 text-base">{t('formRegister.successMessage')}</p>
+            <h2 className="text-2xl font-bold mb-4 text-black">
+              {t('formRegister.success')}
+            </h2>
+            <p className="mb-6 text-gray-700 text-base">
+              {t('formRegister.successMessage')}
+            </p>
             <button
               onClick={handleSuccessModalClose}
               className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition duration-300 ease-in-out"

@@ -14,7 +14,7 @@ const RatingForm = ({ fetchComments }) => {
     if (rating > 0 && comment) {
       try {
         // Enviar la valoración al backend
-        const res = await fetch('http://localhost:3001/ratings', {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/ratings`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

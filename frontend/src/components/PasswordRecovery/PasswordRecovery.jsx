@@ -10,7 +10,7 @@ function PasswordRecovery() {
 
     try {
       const response = await fetch(
-        'http://localhost:3001/users/password/recover',
+        `${import.meta.env.VITE_API_URL}/users/password/recover`,
         {
           method: 'POST',
           headers: {

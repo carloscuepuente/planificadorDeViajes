@@ -13,13 +13,15 @@ function PasswordReset() {
     e.preventDefault();
 
     if (newPassword !== confirmPassword) {
-      toast.error('Las contraseñas no coinciden.', { position: "bottom-center" });
+      toast.error('Las contraseñas no coinciden.', {
+        position: 'bottom-center',
+      });
       return;
     }
 
     try {
       const response = await fetch(
-        `http://localhost:3001/users/password/${code}`,
+        `${import.meta.env.VITE_API_URL}/users/password/${code}`,
         {
           method: 'PUT',
           headers: {
@@ -31,18 +33,23 @@ function PasswordReset() {
 
       if (response.ok) {
         const data = await response.json();
-        toast.success(data.message || 'Contraseña actualizada con éxito.', { position: "bottom-right" });
-        
+        toast.success(data.message || 'Contraseña actualizada con éxito.', {
+          position: 'bottom-right',
+        });
+
         setTimeout(() => {
           navigate('/login');
         }, 3000);
-        
       } else {
         const errorData = await response.json();
-        toast.error(errorData.message || 'Error al actualizar la contraseña.', { position: "bottom-center" });
+        toast.error(errorData.message || 'Error al actualizar la contraseña.', {
+          position: 'bottom-center',
+        });
       }
     } catch (error) {
-      toast.error('Ocurrió un error: ' + error.message, { position: "bottom-center" });
+      toast.error('Ocurrió un error: ' + error.message, {
+        position: 'bottom-center',
+      });
     }
   };
 
@@ -83,8 +90,8 @@ function PasswordReset() {
             Restablecer Contraseña
           </button>
         </form>
-      </div>      
-      <ToastContainer/>
+      </div>
+      <ToastContainer />
     </div>
   );
 }

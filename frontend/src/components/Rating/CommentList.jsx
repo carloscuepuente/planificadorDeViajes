@@ -1,8 +1,8 @@
-import { useTranslation } from 'react-i18next';
-import React, { useState } from 'react';
+// import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
 import Modal from 'react-modal';
 import { useUser } from '../../context/UserContext';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const CommentList = ({ comment, comments, setComments }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -16,17 +16,20 @@ const CommentList = ({ comment, comments, setComments }) => {
   // Función para guardar los cambios de un comentario
   const handleSave = async () => {
     try {
-      const res = await fetch(`http://localhost:3001/ratings/${comment.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
-        body: JSON.stringify({
-          rating: newRating,
-          comment: newComment,
-        }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/ratings/${comment.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+          body: JSON.stringify({
+            rating: newRating,
+            comment: newComment,
+          }),
+        }
+      );
 
       if (!res.ok) {
         throw new Error('No se pudo actualizar la valoración');
@@ -55,7 +58,7 @@ const CommentList = ({ comment, comments, setComments }) => {
   // Función para eliminar un comentario
   const handleDelete = async () => {
     try {
-      const res = await fetch(`http://localhost:3001/ratings`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/ratings`, {
         method: 'DELETE',
         headers: {
           Authorization: token,
@@ -105,7 +108,7 @@ const CommentList = ({ comment, comments, setComments }) => {
     ));
   };
 
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   return (
     <div className="mt-8">
       <div className="mb-4 p-4 bg-white border rounded shadow w-full max-w-4xl mx-auto flex flex-col sm:flex-row items-center bg-zinc-200">
@@ -113,7 +116,7 @@ const CommentList = ({ comment, comments, setComments }) => {
           <img
             src={
               comment.avatar
-                ? `http://localhost:3001/uploads/${comment.avatar}`
+                ? `${import.meta.env.VITE_API_URL}/uploads/${comment.avatar}`
                 : '/default-avatar.png' // imagen predeterminada
             }
             alt={`${comment.username}'s avatar`}

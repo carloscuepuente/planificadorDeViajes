@@ -11,7 +11,7 @@ const FeedbackButton = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch('http://localhost:3001/ratings');
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/ratings`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -44,8 +44,8 @@ const FeedbackButton = () => {
         <p>{t('ratingModal.giveFeedback')}</p>
         {averageRating !== null && numVotes !== null && (
           <p className="text-sm">
-            {t('ratingModal.averageRating')}: ⭐{averageRating.toFixed(1)} ({numVotes}{' '}
-            {t('ratingModal.votes')})
+            {t('ratingModal.averageRating')}: ⭐{averageRating.toFixed(1)} (
+            {numVotes} {t('ratingModal.votes')})
           </p>
         )}
       </Link>
