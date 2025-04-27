@@ -2,7 +2,7 @@
 import server from './src/server.js';
 
 //IMPORTARD DOTENV
-
+import 'dotenv/config';
 // port donde va a escuchar de forma condicional
 // asi la escribe en el servidor de producción o toma el puerto 3001 para trabajar en local
 const PORT = process.env.PORT || 3001;
